@@ -22,6 +22,7 @@
 
 import UIKit
 
+@available(iOS 8.0, *)
 @IBDesignable class DesignableTabBarController: UITabBarController {
     
     @IBInspectable var normalTint: UIColor = UIColor.clearColor() {
@@ -47,8 +48,9 @@ import UIKit
     @IBInspectable var firstSelectedImage: UIImage? {
         didSet {
             if let image = firstSelectedImage {
-                var tabBarItems = self.tabBar.items as! [UITabBarItem]
-                tabBarItems[0].selectedImage = image.imageWithRenderingMode(UIImageRenderingMode.AlwaysTemplate)
+                if let tabBarItems = self.tabBar.items {
+                    tabBarItems[0].selectedImage = image.imageWithRenderingMode(UIImageRenderingMode.AlwaysTemplate)
+                }
             }
         }
     }
@@ -56,8 +58,9 @@ import UIKit
     @IBInspectable var secondSelectedImage: UIImage? {
         didSet {
             if let image = secondSelectedImage {
-                var tabBarItems = self.tabBar.items as! [UITabBarItem]
-                tabBarItems[1].selectedImage = image.imageWithRenderingMode(UIImageRenderingMode.AlwaysTemplate)
+                if let tabBarItems = self.tabBar.items {
+                    tabBarItems[1].selectedImage = image.imageWithRenderingMode(UIImageRenderingMode.AlwaysTemplate)
+                }
             }
         }
     }
@@ -65,8 +68,9 @@ import UIKit
     @IBInspectable var thirdSelectedImage: UIImage? {
         didSet {
             if let image = thirdSelectedImage {
-                var tabBarItems = self.tabBar.items as! [UITabBarItem]
-                tabBarItems[2].selectedImage = image.imageWithRenderingMode(UIImageRenderingMode.AlwaysTemplate)
+                if let tabBarItems = self.tabBar.items {
+                    tabBarItems[2].selectedImage = image.imageWithRenderingMode(UIImageRenderingMode.AlwaysTemplate)
+                }
             }
         }
     }
@@ -74,8 +78,9 @@ import UIKit
     @IBInspectable var fourthSelectedImage: UIImage? {
         didSet {
             if let image = fourthSelectedImage {
-                var tabBarItems = self.tabBar.items as! [UITabBarItem]
-                tabBarItems[3].selectedImage = image.imageWithRenderingMode(UIImageRenderingMode.AlwaysTemplate)
+                if let tabBarItems = self.tabBar.items {
+                    tabBarItems[3].selectedImage = image.imageWithRenderingMode(UIImageRenderingMode.AlwaysTemplate)
+                }
             }
         }
     }
@@ -83,8 +88,9 @@ import UIKit
     @IBInspectable var fifthSelectedImage: UIImage? {
         didSet {
             if let image = fifthSelectedImage {
-                var tabBarItems = self.tabBar.items as! [UITabBarItem]
-                tabBarItems[4].selectedImage = image.imageWithRenderingMode(UIImageRenderingMode.AlwaysTemplate)
+                if let tabBarItems = self.tabBar.items {
+                    tabBarItems[4].selectedImage = image.imageWithRenderingMode(UIImageRenderingMode.AlwaysTemplate)
+                }
             }
         }
     }
@@ -92,7 +98,7 @@ import UIKit
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        for item in self.tabBar.items as! [UITabBarItem] {
+        for item in self.tabBar.items! {
             if let image = item.image {
                 item.image = image.imageWithColor(self.normalTint).imageWithRenderingMode(UIImageRenderingMode.AlwaysOriginal)
             }
@@ -104,10 +110,10 @@ extension UIImage {
     func imageWithColor(tintColor: UIColor) -> UIImage {
         UIGraphicsBeginImageContextWithOptions(self.size, false, self.scale)
         
-        let context = UIGraphicsGetCurrentContext() as CGContextRef
+        let context = UIGraphicsGetCurrentContext()! as CGContextRef
         CGContextTranslateCTM(context, 0, self.size.height)
         CGContextScaleCTM(context, 1.0, -1.0);
-        CGContextSetBlendMode(context, kCGBlendModeNormal)
+        CGContextSetBlendMode(context, CGBlendMode.Normal)
         
         let rect = CGRectMake(0, 0, self.size.width, self.size.height) as CGRect
         CGContextClipToMask(context, rect, self.CGImage)
